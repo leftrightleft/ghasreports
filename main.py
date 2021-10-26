@@ -16,10 +16,10 @@ for repo in res.json():
 #   for repo in res.json():
 #     repos.append(repo['name'])
     
-f = open("demofile2.txt", "a")
+# f = open("demofile2.txt", "a")
 for repo in repos:
   res = requests.get(f'https://api.github.com/repos/{org}/{repo}/code-scanning/alerts', headers=header)
   if len(json.dumps(res.json())) > 1:
-    f.write(json.dumps(res.json(), indent=2))
-    f.write("\n")
-f.close()
+    print(json.dumps(res.json(), indent=2))
+    # f.write("\n")
+# f.close()
