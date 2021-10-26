@@ -1,10 +1,12 @@
 
 
 import requests
+import os
 
 res = requests.get(f'https://api.github.com/zen')
 print('Zen: ', res.text)
 
+print(os.environ)
 # import os
 # import json
 
