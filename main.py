@@ -20,6 +20,6 @@ f = open("demofile.json", "a")
 for repo in repos:
   res = requests.get(f'https://api.github.com/repos/{org}/{repo}/code-scanning/alerts', headers=header)
   if len(json.dumps(res.json())) > 1:
-    print(json.dumps(res.json(), indent=2))
+    f.write(json.dumps(res.json(), indent=2))
     f.write("\n")
 f.close()
