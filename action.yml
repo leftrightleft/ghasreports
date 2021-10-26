@@ -2,9 +2,9 @@ name: "Zen machine"
 description: "gives you some zen"
 author: "Dan Shanahan"
 inputs:
-  path:
-    description: "Path to the YAML file to be linted"
-    required: false
+  token:
+    description: "your token"
+    required: true
   strict:
     description: "Run the linter in strict mode (error on warnings)"
     required: false
