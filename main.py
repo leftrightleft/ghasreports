@@ -12,13 +12,13 @@ for repo in res.json():
   repos.append(repo['name'])
 
 # This code handles paging. docs: https://developer.github.com/v3/guides/traversing-with-pagination/
-# while 'next' in res.links.keys():
-#   res=requests.get(res.links['next']['url'],headers=header)
-#   for repo in res.json():
-#     repos.append(repo['name'])
+while 'next' in res.links.keys():
+  res=requests.get(res.links['next']['url'],headers=header)
+  for repo in res.json():
+    repos.append(repo['name'])
     
 results = []
-for repo in repos:
+for repo in repos[0:100]:
   res = requests.get(f'https://api.github.com/repos/{org}/{repo}/code-scanning/alerts', headers=header)
   if isinstance(res.json(), list):
     results.append({repo:res.json()})
