@@ -18,7 +18,7 @@ while 'next' in res.links.keys():
     repos.append(repo['name'])
     
 results = []
-for repo in repos:
+for repo in repos[0:200]:
   res = requests.get(f'https://api.github.com/repos/{org}/{repo}/code-scanning/alerts', headers=header)
   if isinstance(res.json(), list):
     results.append({repo:res.json()})
