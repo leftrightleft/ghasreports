@@ -12,10 +12,10 @@ for repo in res.json():
   repos.append(repo['name'])
 
 # This code handles paging. docs: https://developer.github.com/v3/guides/traversing-with-pagination/
-while 'next' in res.links.keys():
-  res=requests.get(res.links['next']['url'],headers=header)
-  for repo in res.json():
-    repos.append(repo['name'])
+# while 'next' in res.links.keys():
+#   res=requests.get(res.links['next']['url'],headers=header)
+#   for repo in res.json():
+#     repos.append(repo['name'])
     
 results = []
 for repo in repos:
