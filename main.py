@@ -12,20 +12,17 @@ for repo in res.json():
   repos.append(repo['name'])
 
 # This code handles paging. docs: https://developer.github.com/v3/guides/traversing-with-pagination/
-# while 'next' in res.links.keys():
-#   res=requests.get(res.links['next']['url'],headers=header)
-#   for repo in res.json():
-#     repos.append(repo['name'])
+while 'next' in res.links.keys():
+  res=requests.get(res.links['next']['url'],headers=header)
+  for repo in res.json():
+    repos.append(repo['name'])
     
-# f = open("demofile.json", "a")
 results = []
 for repo in repos:
   res = requests.get(f'https://api.github.com/repos/{org}/{repo}/code-scanning/alerts', headers=header)
   if isinstance(res.json(), list):
     results.append({repo:res.json()})
     
-    # f.write("\n")
-# f.close()
 with open('vulnerabilities.csv', 'w', newline='') as csvfile:
     vulnwriter = csv.writer(csvfile, delimiter=',')
     vulnwriter.writerow(['repo', 'number', 'created at', 'state', 'url', 'rule id', 'severity level', 'tool name', 'path'])
