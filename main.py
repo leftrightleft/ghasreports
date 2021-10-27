@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+import csv
 
 org = 'octodemo'
 header = {'Authorization': 'token ' + os.environ['TOKEN']}
@@ -16,10 +17,29 @@ for repo in res.json():
 #   for repo in res.json():
 #     repos.append(repo['name'])
     
-f = open("demofile.json", "a")
+# f = open("demofile.json", "a")
+results = []
 for repo in repos:
   res = requests.get(f'https://api.github.com/repos/{org}/{repo}/code-scanning/alerts', headers=header)
-  if len(json.dumps(res.json())) > 1:
-    f.write(json.dumps(res.json(), indent=2))
-    f.write("\n")
-f.close()
+  if isinstance(res.json(), list):
+    results.append({repo:res.json()})
+    
+    # f.write("\n")
+# f.close()
+with open('vulnerabilities.csv', 'w', newline='') as csvfile:
+    vulnwriter = csv.writer(csvfile, delimiter=',')
+    vulnwriter.writerow(['repo', 'number', 'created at', 'state', 'url', 'rule id', 'severity level', 'tool name', 'path'])
+    for result in results:
+        print(result)
+        for k, v in result.items():
+            for value in v:
+                vulnwriter.writerow([k,
+                                    value['number'],
+                                    value['created_at'],
+                                    value['state'],
+                                    value['html_url'],
+                                    value['rule']["id"],
+                                    value['rule'].get("security_severity_level", 'n/a'),
+                                    value['tool']['name'],
+                                    value['most_recent_instance']['location']['path']
+                                    ])
